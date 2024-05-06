@@ -1,4 +1,4 @@
-package org.example.blog_page_task.dtos;
+package org.example.blog_page_task.dtos.articledtos;
 
 /*
 //dto niye var  meqale yaratdigimiz anda bezi melumatlar varki

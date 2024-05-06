@@ -1,5 +1,6 @@
 package org.example.blog_page_task.controllers;
 
+import org.example.blog_page_task.dtos.articledtos.ArticleDto;
 import org.example.blog_page_task.dtos.categorydtos.CategoryCreateDto;
 import org.example.blog_page_task.services.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,18 +16,18 @@ public class HomeController {
 
     @GetMapping("/")
     public String index() {
-        CategoryCreateDto categoryCreateDto = new CategoryCreateDto();
-        categoryCreateDto.setName("Salam");
-        categoryService.add(categoryCreateDto);
+//        CategoryCreateDto categoryCreateDto = new CategoryCreateDto();
+//        categoryCreateDto.setName("Salam");
+//        categoryService.add(categoryCreateDto);
         return "home";
     }
 
     @PostMapping("/create")
-    public String Create(@ModelAttribute CategoryCreateDto categoryCreateDto){
-
+    public String Create(@ModelAttribute  CategoryCreateDto categoryCreateDto)
+    {
+        ArticleDto articleDto = new ArticleDto();
         categoryService.add(categoryCreateDto);
-        return "home";
-
+        return "Home";
     }
 
 }
