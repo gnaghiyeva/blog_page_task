@@ -42,4 +42,13 @@ public class DashboardController {
     }
 
 
+
+    //Article
+    @GetMapping("/admin/article/create")
+
+    public String articleCreate(Model model) {
+        List<CategoryDto> categories = categoryService.getAllCategories();
+        model.addAttribute("categories", categories);
+        return "/dashboard/article-create";
+    }
 }
