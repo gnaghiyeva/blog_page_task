@@ -2,7 +2,10 @@ package org.example.blog_page_task.controllers;
 
 import org.example.blog_page_task.dtos.categorydtos.CategoryCreateDto;
 import org.example.blog_page_task.dtos.categorydtos.CategoryDto;
+import org.example.blog_page_task.dtos.tagdtos.TagCreateDto;
+import org.example.blog_page_task.dtos.tagdtos.TagDto;
 import org.example.blog_page_task.services.CategoryService;
+import org.example.blog_page_task.services.TagService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -31,7 +34,7 @@ public class DashboardController {
     }
 
     @GetMapping("/admin/category/category-create")
-    public String addCategory(){
+    public String addCategory() {
         return "/dashboard/category-create";
     }
 
@@ -41,8 +44,6 @@ public class DashboardController {
         return "redirect:/admin/category";
     }
 
-
-
     //Article
     @GetMapping("/admin/article/create")
 
@@ -51,4 +52,30 @@ public class DashboardController {
         model.addAttribute("categories", categories);
         return "/dashboard/article-create";
     }
+
+    //Tag
+    @Autowired
+    private TagService tagService;
+
+    @GetMapping("/admin/tag")
+    public String tag(Model model) {
+        List<TagDto> tags = tagService.getAllTags();
+        model.addAttribute("tags", tags);
+        return "/dashboard/tag";
+    }
+
+    @GetMapping("/admin/tag/tag-create")
+    public String addTagForm(Model model) {
+        model.addAttribute("tagCreateDto", new TagCreateDto());
+        return "/dashboard/tag-create";
+    }
+
+    @PostMapping("/admin/tag/create")
+    public String addTag(@ModelAttribute TagCreateDto tagCreateDto) {
+        tagService.add(tagCreateDto);
+        return "redirect:/admin/tag";
+    }
+
+
 }
+

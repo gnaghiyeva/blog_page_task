@@ -1,0 +1,36 @@
+<html
+        xmlns:th="http://thymeleaf.org"
+        xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+        layout:decorate="~{/dashboard/layout}">
+<head>
+    <title>Category</title>
+</head>
+
+<body>
+<div layout:fragment="container" class="container-fluid">
+    <div>
+        <a href="/admin/tag/tag-create" class="btn btn-primary btn-sm">Create</a>
+    </div>
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Name</th>
+        </tr>
+        </thead>
+        <tbody >
+        <tr th:each="tag : ${tags}">
+            <th th:text="${tag.id}"></th>
+            <td th:text="${tag.name}"></td>
+
+        </tr>
+
+
+        </tbody>
+    </table>
+</div>
+</body>
+
+</html>
+
+
