@@ -2,6 +2,7 @@ package org.example.blog_page_task.services.impl;
 
 import org.example.blog_page_task.dtos.articledtos.ArticleCreateDto;
 import org.example.blog_page_task.dtos.articledtos.ArticleDto;
+import org.example.blog_page_task.dtos.articledtos.ArticleHomeDto;
 import org.example.blog_page_task.models.Article;
 import org.example.blog_page_task.models.Category;
 import org.example.blog_page_task.repositories.ArticleRepository;
@@ -43,6 +44,14 @@ public class ArticleServiceImpl implements ArticleService {
         article.setCreatedDate(new Date());
         article.setCategory(category);
         articleRepository.save(article);
+    }
+
+    @Override
+    public List<ArticleHomeDto> getHomeArticles() {
+        List<ArticleHomeDto> articleDtoList = articleRepository.findAll().stream()
+                .map(article -> modelMapper.map(article, ArticleHomeDto.class))
+                .collect(Collectors.toList());
+        return articleDtoList;
     }
 
 
