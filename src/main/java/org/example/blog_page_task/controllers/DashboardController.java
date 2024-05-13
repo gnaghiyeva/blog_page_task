@@ -12,9 +12,7 @@ import org.example.blog_page_task.services.TagService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -73,6 +71,12 @@ public class DashboardController {
     public String articleCreate(@ModelAttribute ArticleCreateDto articleDto)
     {
         articleService.addArticle(articleDto);
+        return "redirect:/admin/article";
+    }
+
+    @GetMapping("/admin/article/remove/{id}")
+    public String removeArticle(@ModelAttribute @PathVariable Long id){
+        articleService.removeArticle(id);
         return "redirect:/admin/article";
     }
 

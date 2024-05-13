@@ -54,5 +54,11 @@ public class ArticleServiceImpl implements ArticleService {
         return articleDtoList;
     }
 
+    @Override
+    public void removeArticle(Long articleId) {
+        Article article = articleRepository.findById(articleId).orElseThrow();
+        articleRepository.delete(article);
+    }
+
 
 }

@@ -12,4 +12,6 @@ public interface ArticleService {
 
     void addArticle(ArticleCreateDto articleDto);
     List<ArticleHomeDto> getHomeArticles();
+
+    void removeArticle(Long articleId);
 }
