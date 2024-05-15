@@ -59,7 +59,7 @@
                        <td th:text="${article.updatedDate}"></td>
                        <td th:text="${article.viewCount}"></td>
                        <td>
-                           <a class="btn btn-outline-warning btn-sm">Update</a>
+                           <a th:href="'/admin/article/update/'+${article.id}" class="btn btn-outline-warning btn-sm">Update</a>
                            <button th:onclick="'remove('+${article.id}+')'" class="btn btn-outline-danger btn-sm">Delete</button>
                        </td>
                    </tr>

@@ -3,6 +3,7 @@ package org.example.blog_page_task.services.impl;
 import org.example.blog_page_task.dtos.articledtos.ArticleCreateDto;
 import org.example.blog_page_task.dtos.articledtos.ArticleDto;
 import org.example.blog_page_task.dtos.articledtos.ArticleHomeDto;
+import org.example.blog_page_task.dtos.articledtos.ArticleUpdateDto;
 import org.example.blog_page_task.models.Article;
 import org.example.blog_page_task.models.Category;
 import org.example.blog_page_task.repositories.ArticleRepository;
@@ -58,6 +59,25 @@ public class ArticleServiceImpl implements ArticleService {
     public void removeArticle(Long articleId) {
         Article article = articleRepository.findById(articleId).orElseThrow();
         articleRepository.delete(article);
+    }
+
+    @Override
+    public void updateArticle(ArticleUpdateDto articleDto) {
+        Article findArticle = articleRepository.findById(articleDto.getId()).orElseThrow();
+        Category category = categoryRepository.findById(articleDto.getCategoryId()).orElseThrow();
+        findArticle.setId(articleDto.getId());
+        findArticle.setTitle(articleDto.getTitle());
+        findArticle.setDescription(articleDto.getDescription());
+        findArticle.setUpdatedDate(new Date());
+        findArticle.setPhotoUrl(articleDto.getPhotoUrl());
+        findArticle.setCategory(category);
+        articleRepository.saveAndFlush(findArticle);
+    }
+    @Override
+    public ArticleUpdateDto findUpdatedArticle(Long id) {
+        Article article = articleRepository.findById(id).orElseThrow();
+        ArticleUpdateDto articleUpdateDto = modelMapper.map(article, ArticleUpdateDto.class);
+        return articleUpdateDto;
     }
 
 

@@ -2,6 +2,7 @@ package org.example.blog_page_task.controllers;
 
 import org.example.blog_page_task.dtos.articledtos.ArticleCreateDto;
 import org.example.blog_page_task.dtos.articledtos.ArticleDto;
+import org.example.blog_page_task.dtos.articledtos.ArticleUpdateDto;
 import org.example.blog_page_task.dtos.categorydtos.CategoryCreateDto;
 import org.example.blog_page_task.dtos.categorydtos.CategoryDto;
 import org.example.blog_page_task.dtos.tagdtos.TagCreateDto;
@@ -77,6 +78,21 @@ public class DashboardController {
     @GetMapping("/admin/article/remove/{id}")
     public String removeArticle(@ModelAttribute @PathVariable Long id){
         articleService.removeArticle(id);
+        return "redirect:/admin/article";
+    }
+
+    @GetMapping("/admin/article/update/{id}")
+    public String updateArticle(@ModelAttribute @PathVariable Long id, Model model){
+        ArticleUpdateDto articleUpdateDto = articleService.findUpdatedArticle(id);
+        List<CategoryDto> categories = categoryService.getAllCategories();
+        model.addAttribute("categories", categories);
+        model.addAttribute("article", articleUpdateDto);
+        return "dashboard/article/update";
+    }
+
+    @PostMapping("/admin/article/update")
+    public String updateArticle(@ModelAttribute ArticleUpdateDto articleUpdateDto){
+        articleService.updateArticle(articleUpdateDto);
         return "redirect:/admin/article";
     }
 
