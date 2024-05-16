@@ -32,6 +32,7 @@ public class ArticleServiceImpl implements ArticleService {
     @Override
     public List<ArticleDto> getArticles() {
         List<ArticleDto> articleDtoList = articleRepository.findAll().stream()
+                .filter(x->x.getIsDeleted() == false)
                 .map(article -> modelMapper.map(article, ArticleDto.class))
                 .collect(Collectors.toList());
         return articleDtoList;
@@ -50,6 +51,7 @@ public class ArticleServiceImpl implements ArticleService {
     @Override
     public List<ArticleHomeDto> getHomeArticles() {
         List<ArticleHomeDto> articleDtoList = articleRepository.findAll().stream()
+                .filter(x->x.getIsDeleted() == false)
                 .map(article -> modelMapper.map(article, ArticleHomeDto.class))
                 .collect(Collectors.toList());
         return articleDtoList;
@@ -58,7 +60,9 @@ public class ArticleServiceImpl implements ArticleService {
     @Override
     public void removeArticle(Long articleId) {
         Article article = articleRepository.findById(articleId).orElseThrow();
-        articleRepository.delete(article);
+        article.setIsDeleted(true);
+//        articleRepository.delete(article);
+        articleRepository.save(article);
     }
 
     @Override
@@ -80,5 +84,6 @@ public class ArticleServiceImpl implements ArticleService {
         return articleUpdateDto;
     }
 
+    
 
 }

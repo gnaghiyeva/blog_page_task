@@ -24,7 +24,7 @@ public class Article {
     private Date createdDate;
     private Date updatedDate;
     private int viewCount;
-
+    private Boolean isDeleted;
 
     //category ve article arasinda elaqe
     @ManyToOne
