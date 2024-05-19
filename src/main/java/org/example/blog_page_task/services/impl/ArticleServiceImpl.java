@@ -1,9 +1,7 @@
 package org.example.blog_page_task.services.impl;
 
-import org.example.blog_page_task.dtos.articledtos.ArticleCreateDto;
-import org.example.blog_page_task.dtos.articledtos.ArticleDto;
-import org.example.blog_page_task.dtos.articledtos.ArticleHomeDto;
-import org.example.blog_page_task.dtos.articledtos.ArticleUpdateDto;
+import org.example.blog_page_task.dtos.articledtos.*;
+import org.example.blog_page_task.helpers.SeoHelper;
 import org.example.blog_page_task.models.Article;
 import org.example.blog_page_task.models.Category;
 import org.example.blog_page_task.repositories.ArticleRepository;
@@ -45,6 +43,8 @@ public class ArticleServiceImpl implements ArticleService {
         article.setUpdatedDate(new Date());
         article.setCreatedDate(new Date());
         article.setCategory(category);
+        SeoHelper seoHelper = new SeoHelper();
+        article.setSeoUrl(seoHelper.seoUrlHelper(articleDto.getTitle()));
         articleRepository.save(article);
     }
 
@@ -57,13 +57,7 @@ public class ArticleServiceImpl implements ArticleService {
         return articleDtoList;
     }
 
-    @Override
-    public void removeArticle(Long articleId) {
-        Article article = articleRepository.findById(articleId).orElseThrow();
-        article.setIsDeleted(true);
-//        articleRepository.delete(article);
-        articleRepository.save(article);
-    }
+
 
     @Override
     public void updateArticle(ArticleUpdateDto articleDto) {
@@ -75,6 +69,8 @@ public class ArticleServiceImpl implements ArticleService {
         findArticle.setUpdatedDate(new Date());
         findArticle.setPhotoUrl(articleDto.getPhotoUrl());
         findArticle.setCategory(category);
+        SeoHelper seoHelper = new SeoHelper();
+        findArticle.setSeoUrl(seoHelper.seoUrlHelper(articleDto.getTitle()));
         articleRepository.saveAndFlush(findArticle);
     }
     @Override
@@ -84,6 +80,18 @@ public class ArticleServiceImpl implements ArticleService {
         return articleUpdateDto;
     }
 
-    
+    @Override
+    public ArticleDetailDto articleDetail(Long id) {
+        Article article = articleRepository.findById(id).orElseThrow();
+        ArticleDetailDto articleUpdateDto = modelMapper.map(article, ArticleDetailDto.class);
+        return articleUpdateDto;
+    }
 
+    @Override
+    public void removeArticle(Long articleId) {
+        Article article = articleRepository.findById(articleId).orElseThrow();
+        article.setIsDeleted(true);
+//        articleRepository.delete(article);
+        articleRepository.save(article);
+    }
 }

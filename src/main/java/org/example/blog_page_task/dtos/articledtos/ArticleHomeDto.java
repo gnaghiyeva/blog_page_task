@@ -12,5 +12,5 @@ public class ArticleHomeDto {
     private String title;
     private String subTitle;
     private Date createdDate;
-
+    private String seoUrl;
 }
