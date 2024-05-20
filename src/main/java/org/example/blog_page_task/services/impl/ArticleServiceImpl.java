@@ -7,6 +7,7 @@ import org.example.blog_page_task.models.Category;
 import org.example.blog_page_task.repositories.ArticleRepository;
 import org.example.blog_page_task.repositories.CategoryRepository;
 import org.example.blog_page_task.services.ArticleService;
+import org.example.blog_page_task.services.EmailService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -27,6 +28,8 @@ public class ArticleServiceImpl implements ArticleService {
     @Autowired
     private ModelMapper modelMapper;
 
+    @Autowired
+    private EmailService emailService;
     @Override
     public List<ArticleDto> getArticles() {
         List<ArticleDto> articleDtoList = articleRepository.findAll().stream()
