@@ -17,8 +17,8 @@ public class MailConfig {
         javaMailSender.setHost("smtp.ethereal.email");
         javaMailSender.setPort(587);
 
-        javaMailSender.setUsername("asia.price@ethereal.email");
-        javaMailSender.setPassword("hDa5SjSFEDRKjjqJrZ");
+        javaMailSender.setUsername("norris63@ethereal.email");
+        javaMailSender.setPassword("daSe8TdHJTf99CV5tg");
 
 
 

@@ -14,13 +14,14 @@ public class EmailServiceImpl implements EmailService {
     @Override
     public void sendConfirmationEmail(String email, String token) {
         SimpleMailMessage message = new SimpleMailMessage();
-        message.setFrom("asia.price@ethereal.email");
-        message.setTo("asia.price@ethereal.email");
+        message.setFrom("norris63@ethereal.email");
+        message.setTo("norris63@ethereal.email");
         message.setSubject("Confirm Email");
         message.setText("salam");
         //http://localhost:9090/auth/confirm?email=gulnar@itbrains.edu.az&token=asjdfnsjkf
         //template literals
-        String res = "http://localhost:9090/auth/confirm?email="+email+"&token="+token;
+        String res = "http://localhost:8080/auth/confirm?email="+email+"&token="+token;
+        message.setText(res);
         mailSender.send(message);
     }
 }

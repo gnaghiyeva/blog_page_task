@@ -42,8 +42,8 @@ public class Security {
             // ensure the passwords are encoded properly
             User.UserBuilder users = User.withDefaultPasswordEncoder();
             InMemoryUserDetailsManager manager = new InMemoryUserDetailsManager();
-            manager.createUser(users.username("nigar").password("password").roles("USER").build());
-            manager.createUser(users.username("gulnar").password("password").roles("USER","ADMIN").build());
+            manager.createUser(users.username("nigar@itbrains.edu.az").password("password").roles("USER").build());
+            manager.createUser(users.username("gulnar@itbrains.edu.az").password("password").roles("USER","ADMIN").build());
             return manager;
         }
 

@@ -30,6 +30,7 @@ public class ArticleServiceImpl implements ArticleService {
 
     @Autowired
     private EmailService emailService;
+
     @Override
     public List<ArticleDto> getArticles() {
         List<ArticleDto> articleDtoList = articleRepository.findAll().stream()
@@ -53,6 +54,7 @@ public class ArticleServiceImpl implements ArticleService {
 
     @Override
     public List<ArticleHomeDto> getHomeArticles() {
+
         List<ArticleHomeDto> articleDtoList = articleRepository.findAll().stream()
                 .filter(x->x.getIsDeleted() == false)
                 .map(article -> modelMapper.map(article, ArticleHomeDto.class))
