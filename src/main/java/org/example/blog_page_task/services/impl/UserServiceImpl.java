@@ -1,7 +1,8 @@
 package org.example.blog_page_task.services.impl;
 
 import org.example.blog_page_task.dtos.authdtos.RegisterDto;
-import org.example.blog_page_task.models.User;
+import org.example.blog_page_task.dtos.userdtos.UserDashboardListDto;
+import org.example.blog_page_task.models.UserEntity;
 import org.example.blog_page_task.repositories.UserRepository;
 import org.example.blog_page_task.services.EmailService;
 import org.example.blog_page_task.services.UserService;
@@ -10,7 +11,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Random;
+import java.util.stream.Collectors;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -27,7 +30,7 @@ public class UserServiceImpl implements UserService {
     private EmailService emailService;
     @Override
     public boolean register(RegisterDto register) {
-        User user = userRepository.findByEmail(register.getEmail());
+        UserEntity user = userRepository.findByEmail(register.getEmail());
         if (user != null) {
             return false;
         }
@@ -35,7 +38,7 @@ public class UserServiceImpl implements UserService {
         Random random = new Random();
 //      String token = String.valueOf(random.nextInt(26,30));
         String token = bCryptPasswordEncoder.encode(register.getEmail());
-        User newUser = modelMapper.map(register, User.class);
+        UserEntity newUser = modelMapper.map(register, UserEntity.class);
         newUser.setEmailConfirmed(false);
         newUser.setConfirmationToken(token);
         newUser.setPassword(hashPassword);
@@ -46,12 +49,19 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public boolean confirmEmail(String email, String token) {
-        User findUser = userRepository.findByEmail(email);
+        UserEntity findUser = userRepository.findByEmail(email);
         if(findUser.getConfirmationToken().equals(token) && findUser!=null){
             findUser.setEmailConfirmed(true);
             userRepository.save(findUser);
             return true;
         }
         return false;
+    }
+
+    @Override
+    public List<UserDashboardListDto> getDashboardUsers() {
+        List<UserEntity> findUsers = userRepository.findAll();
+        List<UserDashboardListDto> users = findUsers.stream().map(user->modelMapper.map(user, UserDashboardListDto.class)).collect(Collectors.toList());
+        return users;
     }
 }

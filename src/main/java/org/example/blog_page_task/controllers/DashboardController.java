@@ -7,9 +7,11 @@ import org.example.blog_page_task.dtos.categorydtos.CategoryCreateDto;
 import org.example.blog_page_task.dtos.categorydtos.CategoryDto;
 import org.example.blog_page_task.dtos.tagdtos.TagCreateDto;
 import org.example.blog_page_task.dtos.tagdtos.TagDto;
+import org.example.blog_page_task.dtos.userdtos.UserDashboardListDto;
 import org.example.blog_page_task.services.ArticleService;
 import org.example.blog_page_task.services.CategoryService;
 import org.example.blog_page_task.services.TagService;
+import org.example.blog_page_task.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -24,6 +26,9 @@ public class DashboardController {
 
     @Autowired
     private ArticleService articleService;
+
+    @Autowired
+    private UserService userService;
 
     @GetMapping("/admin")
     public String index() {
@@ -119,6 +124,13 @@ public class DashboardController {
         return "redirect:/admin/tag";
     }
 
+
+    @GetMapping("/admin/users")
+    public String getUsers(Model model) {
+        List<UserDashboardListDto> userList = userService.getDashboardUsers();
+        model.addAttribute("users",userList);
+        return "/dashboard/auth/user-list";
+    }
 
 }
 

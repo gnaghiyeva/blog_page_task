@@ -1,8 +1,12 @@
 package org.example.blog_page_task.repositories;
 
-import org.example.blog_page_task.models.User;
+import org.example.blog_page_task.dtos.userdtos.UserDashboardListDto;
+import org.example.blog_page_task.models.UserEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface UserRepository extends JpaRepository<User, Long> {
-    User findByEmail(String email);
+import java.util.List;
+
+public interface UserRepository extends JpaRepository<UserEntity, Long> {
+    UserEntity findByEmail(String email);
+
 }
