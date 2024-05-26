@@ -1,8 +1,12 @@
 package org.example.blog_page_task.services.impl;
 
 import org.example.blog_page_task.dtos.authdtos.RegisterDto;
+import org.example.blog_page_task.dtos.userdtos.UserAddRoleDto;
 import org.example.blog_page_task.dtos.userdtos.UserDashboardListDto;
+import org.example.blog_page_task.dtos.userdtos.UserDto;
+import org.example.blog_page_task.models.Role;
 import org.example.blog_page_task.models.UserEntity;
+import org.example.blog_page_task.repositories.RoleRepository;
 import org.example.blog_page_task.repositories.UserRepository;
 import org.example.blog_page_task.services.EmailService;
 import org.example.blog_page_task.services.UserService;
@@ -28,6 +32,9 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private EmailService emailService;
+    @Autowired
+    private RoleRepository roleRepository;
+
     @Override
     public boolean register(RegisterDto register) {
         UserEntity user = userRepository.findByEmail(register.getEmail());
@@ -64,4 +71,22 @@ public class UserServiceImpl implements UserService {
         List<UserDashboardListDto> users = findUsers.stream().map(user->modelMapper.map(user, UserDashboardListDto.class)).collect(Collectors.toList());
         return users;
     }
+
+    @Override
+    public UserDto getUserById(Long id)
+    {
+        UserEntity findUser = userRepository.findById(id).orElseThrow();
+        UserDto user = modelMapper.map(findUser, UserDto.class);
+        return user;
+    }
+
+    @Override
+    public void addRole(UserAddRoleDto userAddRole) {
+        UserEntity findUser = userRepository.findByEmail(userAddRole.getEmail());
+        List<Role> roles = roleRepository.findAll().stream().filter(x->x.getId() == userAddRole.getRoleId()).collect(Collectors.toList());
+        findUser.setRoles(roles);
+        userRepository.save(findUser);
+
+    }
+
 }

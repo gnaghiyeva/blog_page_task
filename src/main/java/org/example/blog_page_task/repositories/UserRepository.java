@@ -8,5 +8,10 @@ import java.util.List;
 
 public interface UserRepository extends JpaRepository<UserEntity, Long> {
     UserEntity findByEmail(String email);
-
 }
+/*
+* findByFieldName
+* List<UserEntity>findByFirstName
+* unique olmasin ama ilk tapdigini cixarsin findFirstByFieldName
+* UserEntity findFirstByFirstName
+*/

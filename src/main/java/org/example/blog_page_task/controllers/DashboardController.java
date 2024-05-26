@@ -5,13 +5,13 @@ import org.example.blog_page_task.dtos.articledtos.ArticleDto;
 import org.example.blog_page_task.dtos.articledtos.ArticleUpdateDto;
 import org.example.blog_page_task.dtos.categorydtos.CategoryCreateDto;
 import org.example.blog_page_task.dtos.categorydtos.CategoryDto;
+import org.example.blog_page_task.dtos.roledtos.RoleDto;
 import org.example.blog_page_task.dtos.tagdtos.TagCreateDto;
 import org.example.blog_page_task.dtos.tagdtos.TagDto;
+import org.example.blog_page_task.dtos.userdtos.UserAddRoleDto;
 import org.example.blog_page_task.dtos.userdtos.UserDashboardListDto;
-import org.example.blog_page_task.services.ArticleService;
-import org.example.blog_page_task.services.CategoryService;
-import org.example.blog_page_task.services.TagService;
-import org.example.blog_page_task.services.UserService;
+import org.example.blog_page_task.dtos.userdtos.UserDto;
+import org.example.blog_page_task.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -29,6 +29,9 @@ public class DashboardController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private RoleService roleService;
 
     @GetMapping("/admin")
     public String index() {
@@ -129,6 +132,22 @@ public class DashboardController {
     public String getUsers(Model model) {
         List<UserDashboardListDto> userList = userService.getDashboardUsers();
         model.addAttribute("users",userList);
+        return "/dashboard/auth/user-list";
+    }
+
+    @GetMapping("/admin/users/role/{id}")
+    public String addRole(@PathVariable Long id, Model model) {
+        List<RoleDto> roles = roleService.getRoles();
+        UserDto user = userService.getUserById(id);
+        model.addAttribute("user", user);
+        model.addAttribute("roles", roles);
+        return "/dashboard/auth/user-role";
+    }
+
+    @PostMapping("/admin/users/addrole")
+    public String addRole(UserAddRoleDto addRoleDto)
+    {
+        userService.addRole(addRoleDto);
         return "/dashboard/auth/user-list";
     }
 
