@@ -49,6 +49,7 @@ public class ArticleServiceImpl implements ArticleService {
         article.setCategory(category);
         SeoHelper seoHelper = new SeoHelper();
         article.setSeoUrl(seoHelper.seoUrlHelper(articleDto.getTitle()));
+        article.setIsDeleted(false);
         articleRepository.save(article);
     }
 
